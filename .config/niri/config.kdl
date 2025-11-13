@@ -54,7 +54,7 @@ layout {
 
 spawn-at-startup "waybar"
 spawn-at-startup "swww-daemon" 
-spawn-at-startup  "$HOME/.config/walls/toggle-walls.sh"
+spawn-at-startup  "$HOME/.config/walls/toggle-wallpaper.sh"
 layer-rule {
     match namespace="waybar"
     match at-startup=true
@@ -119,7 +119,9 @@ binds {
     Mod+RETURN hotkey-overlay-title="Open a Terminal: alacritty" { spawn "kitty"; }
     Mod+A hotkey-overlay-title="Run an Application: fuzzel" { spawn "bash" "-c" "tofi-drun --drun-launch=true || pkill tofi-drun"; }
     Mod+E { spawn "kitty"  "spf"; }
-    Mod+Shift+W { spawn "bash" "-c" "$HOME/.config/walls/toggle-walls.sh"; }
+    Mod+Shift+W { spawn "bash" "-c" "$HOME/.config/walls/toggle-wallpaper.sh"; }
+
+
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
@@ -133,67 +135,22 @@ binds {
 
     Mod+C { close-window; }
 
-    Mod+J     { focus-column-left; }
+    Mod+H     { focus-column-left; }
    	Mod+L     { focus-column-right; }
 
-    Mod+Shift+J     { move-column-left; }
+    Mod+Shift+H     { move-column-left; }
     Mod+Shift+L     { move-column-right; }
     
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
-     Mod+K     { focus-window-or-workspace-down; }
-     Mod+I     { focus-window-or-workspace-up; }
-     Mod+Shift+K     { move-window-down-or-to-workspace-down; }
-     Mod+Shift+I     { move-window-up-or-to-workspace-up; }
+     Mod+J     { focus-window-or-workspace-down; }
+     Mod+K     { focus-window-or-workspace-up; }
+     Mod+Shift+J     { move-window-down-or-to-workspace-down; }
+     Mod+Shift+K     { move-window-up-or-to-workspace-up; }
 
-   // Mod+Home { focus-column-first; }
-   // Mod+End  { focus-column-last; }
-   // Mod+Ctrl+Home { move-column-to-first; }
-   // Mod+Ctrl+End  { move-column-to-last; }
 
-    //Mod+Shift+Left  { focus-monitor-left; }
-    //Mod+Shift+Down  { focus-monitor-down; }
-    //Mod+Shift+Up    { focus-monitor-up; }
-    //Mod+Shift+Right { focus-monitor-right; }
-    //Mod+Shift+H     { focus-monitor-left; }
-    //Mod+Shift+J     { focus-monitor-down; }
-    //Mod+Shift+K     { focus-monitor-up; }
-    //Mod+Shift+L     { focus-monitor-right; }
-
-    //Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-    //Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-    //Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-    //Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-    //Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
-    //Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
-    //Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
-    //Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
-    // ...
-
-    // And you can also move a whole workspace to another monitor:
-    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
-    // ...
-
-    Mod+Page_Down      { focus-workspace-down; }
-    Mod+Page_Up        { focus-workspace-up; }
-    //Mod+U              { focus-workspace-down; }
-    //Mod+I              { focus-workspace-up; }
-    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
-    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
-	Mod+Ctrl+U         { move-column-to-workspace-down; }
-    //Mod+Ctrl+I         { move-column-to-workspace-up; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
-    // ...
-
-    //Mod+Shift+Page_Down { move-workspace-down; }
-    //Mod+Shift+Page_Up   { move-workspace-up; }
-    Mod+Shift+Ctrl+K      { move-workspace-down; }
-    Mod+Shift+Ctrl+I      { move-workspace-up; }
+    Mod+Shift+Ctrl+J      { move-workspace-down; }
+    Mod+Shift+Ctrl+K      { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
@@ -218,23 +175,7 @@ binds {
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
 
-    // Similarly, you can bind touchpad scroll "ticks".
-    // Touchpad scrolling is continuous, so for these binds it is split into
-    // discrete intervals.
-    // These binds are also affected by touchpad's natural-scroll, so these
-    // example binds are "inverted", since we have natural-scroll enabled for
-    // touchpads by default.
-    // Mod+TouchpadScrollDown { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02+"; }
-    // Mod+TouchpadScrollUp   { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02-"; }
 
-    // You can refer to workspaces by index. However, keep in mind that
-    // niri is a dynamic workspace system, so these commands are kind of
-    // "best effort". Trying to refer to a workspace index bigger than
-    // the current workspace count will instead refer to the bottommost
-    // (empty) workspace.
-    //
-    // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
-    // will all refer to the 3rd workspace.
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -254,15 +195,7 @@ binds {
     Mod+Ctrl+8 { move-column-to-workspace 8; }
     Mod+Ctrl+9 { move-column-to-workspace 9; }
 
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
-    // Switches focus between the current and the previous workspace.
-    // Mod+Tab { focus-workspace-previous; }
-
-    // The following binds move the focused window in and out of a column.
-    // If the window is alone, they will consume it into the nearby column to the side.
-    // If the window is already in a column, they will expel it out.
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
@@ -283,10 +216,10 @@ binds {
     Mod+Shift+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
 
-    Mod+Alt+J { set-column-width "-10%"; }
+    Mod+Alt+H { set-column-width "-10%"; }
     Mod+Alt+L { set-column-width "+10%"; }
-    Mod+Alt+I { set-window-height "-10%"; }
-    Mod+Alt+K { set-window-height "+10%"; }
+    Mod+Alt+K { set-window-height "-10%"; }
+    Mod+Alt+J { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
     Mod+Space        { toggle-window-floating; }
@@ -297,13 +230,6 @@ binds {
     // rather than stacked on top of each other.
     Mod+W { toggle-column-tabbed-display; }
 
-    // Actions to switch layouts.
-    // Note: if you uncomment these, make sure you do NOT have
-    // a matching layout switch hotkey configured in xkb options above.
-    // Having both at once on the same hotkey will break the switching,
-    // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-    // Mod+Space       { switch-layout "next"; }
-    // Mod+Shift+Space { switch-layout "prev"; }
 
     Mod+Shift+S { screenshot; }
     Ctrl+Print { screenshot-screen; }
