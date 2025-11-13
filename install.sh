@@ -42,41 +42,52 @@ echo "Applying GTK and icon themes..."
 gsettings set org.gnome.desktop.interface gtk-theme "Nord"
 gsettings set org.gnome.desktop.interface icon-theme "Nordzy-dark" || true
 
-sh ~/.config/walls/toggle-wallpaper.sh
+[ -f "$HOME/.config/walls/toggle-wallpaper.sh" ] && sh "$HOME/.config/walls/toggle-wallpaper.sh"
 
-
-echo "Base ricing done :)"
+echo "Base ricing done."
 
 # --------------------------
-# Extra apps prompt
+# Extra apps
 # --------------------------
-EXTRA_APPS=("Zen")
+EXTRA_APPS=("Zen" "code-oss")
+
 echo ""
-echo "Optional extra apps available to install:"
-for app in "${EXTRA_APPS[@]}"; do
-    echo "  - $app"
+echo "Optional apps available:"
+for i in "${!EXTRA_APPS[@]}"; do
+    echo "  [$((i+1))] ${EXTRA_APPS[$i]}"
 done
 
-read -p "Do you want to install and configure these extra apps? (y/N): " install_extra
-if [[ $install_extra =~ ^[Yy]$ ]]; then
-    echo "Installing and configuring extra apps..."
-    
-    # Zen setup
-    ZEN_SRC="$SCRIPT_DIR/themes/Nord/zen/userChrome.css"
-    ZEN_DIR="$HOME/.zen"
-    if [ -f "$ZEN_SRC" ]; then
-        echo "Copying userChrome.css to all Zen profiles..."
-        find "$ZEN_DIR" -maxdepth 1 -type d -name "*.Default*" | while read -r PROFILE; do
-            mkdir -p "$PROFILE/chrome"
-            cp "$ZEN_SRC" "$PROFILE/chrome/userChrome.css"
-            echo "Copied to $PROFILE/chrome/"
-        done
-    else
-        echo "No userChrome.css found in $SCRIPT_DIR/zen/"
-    fi
+read -p "Enter numbers of apps to install (e.g. '1 2'), or press Enter to skip: " -a selections
+[ ${#selections[@]} -eq 0 ] && echo "Skipping extra apps." && exit 0
 
-else
-    echo "Skipping extra apps installation."
-fi
+for idx in "${selections[@]}"; do
+    app="${EXTRA_APPS[$((idx-1))]}"
+    case "$app" in
+        Zen)
+            echo "Setting up Zen..."
+            ZEN_SRC="$SCRIPT_DIR/themes/Nord/zen/userChrome.css"
+            ZEN_DIR="$HOME/.zen"
+            if [ -f "$ZEN_SRC" ]; then
+                find "$ZEN_DIR" -maxdepth 1 -type d -name "*.Default*" | while read -r p; do
+                    mkdir -p "$p/chrome" && cp "$ZEN_SRC" "$p/chrome/userChrome.css"
+                    echo "Copied to $p/chrome/"
+                done
+            else
+                echo "No userChrome.css found."
+            fi
+            ;;
+        code-oss)
+            echo "Installing and theming VSCode-OSS..."
+            "$AUR_HELPER" -S --noconfirm code-oss || true
+            SETTINGS="$HOME/.config/Code - OSS/User/settings.json"
+            mkdir -p "$(dirname "$SETTINGS")"
+            code-oss --install-extension arcticicestudio.nord-visual-studio-code || true
+            echo '{ "workbench.colorTheme": "Nord" }' > "$SETTINGS"
+            ;;
+        *)
+            echo "Unknown selection: $idx"
+            ;;
+    esac
+done
 
-echo "Done! Theme, icons, and optional extra apps applied."
+echo "Done. Themes and extras applied."

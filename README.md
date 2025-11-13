@@ -12,6 +12,7 @@
 
 ```bash
 .config/
+├── Code - OSS      #editor
 ├── fastfetch       # fetch
 ├── kitty           # terminal
 ├── niri            # wm config
