@@ -4,7 +4,7 @@
 [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code\&size=33\&duration=4000\&pause=1000\&color=D8DEE9\&width=435\&height=59\&lines=%E2%9D%84%EF%B8%8F+Niri+%2B+Nord)](https://git.io/typing-svg)
 
 ### A clean and minimal Nord-themed Wayland setup using [**Niri**](https://github.com/YaLTeR/niri).
-
+[7c3a20b6fcbd](https://github.com/user-attachments/assets/348390e6-b0ba-4512-a51f-7c3a20b6fcbd)
 
 ---
 
@@ -88,3 +88,4 @@ chmod +x install.sh
 | Zen Theme          | [Firefox Add-on](https://addons.mozilla.org/en-US/firefox/addon/minimalist-nord/) ([Zen CSS](./.config/zen)) |
 | Startpage          | [Firefox Add-on](https://addons.mozilla.org/en-US/firefox/addon/nord-inspired-startpage/)                    |
 | Wallpapers         | [Local Folder](./.config/walls)                                                                              |
+
